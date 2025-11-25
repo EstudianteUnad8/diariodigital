@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Diario Reflexivo - Hija de la Laguna</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg-main: #f7f3ff;
+      --bg-page: #fffdf7;
+      --accent: #ff6f61;
+      --accent-soft: #ffe0d9;
+      --accent-2: #5c6bc0;
+      --text-main: #333333;
+      --text-muted: #666666;
+      --shadow-soft: 0 10px 25px rgba(0,0,0,0.08);
+      --border-radius-page: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top left, #ffe6f0 0, #f7f3ff 35%, #e0f7ff 100%);
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 20px;
+    }
+
+    .diary-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border: 1px dashed rgba(0,0,0,0.05);
+    }
+
+    /* ENCABEZADO / PORTADA */
+    .header-card {
+      background: linear-gradient(135deg, #ff9a76, #ff6f91, #5c6bc0);
+      color: white;
+      border-radius: 24px;
+      padding: 24px 22px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255,255,255,0.45), transparent 70%);
+      top: -40px;
+      right: -40px;
+      opacity: 0.8;
+    }
+
+    .header-main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-text {
+      flex: 2;
+      min-width: 260px;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      margin-bottom: 6px;
+      letter-spacing: 0.03em;
+    }
+
+    .header-text h2 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      opacity: 0.95;
+      margin-bottom: 8px;
+    }
+
+    .header-text p {
+      font-size: 0.95rem;
+      opacity: 0.95;
+    }
+
+    .header-stamp {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .stamp {
+      border-radius: 50%;
+      border: 2px dashed rgba(255,255,255,0.8);
+      padding: 10px;
+    }
+
+    .stamp-inner {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.16);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.83rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .stamp-inner span {
+      display: block;
+    }
+
+    .stamp-inner .big {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    /* DATOS ESTUDIANTE / CURSO */
+    .info-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+      border-left: 6px solid var(--accent);
+    }
+
+    .info-card:nth-child(2) {
+      border-left-color: var(--accent-2);
+    }
+
+    .info-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .info-list p {
+      font-size: 0.92rem;
+      margin-bottom: 3px;
+    }
+
+    .info-list p span {
+      font-weight: 600;
+    }
+
+    /* SECCION VIDEO */
+    .video-card {
+      background: var(--bg-page);
+      border-radius: var(--border-radius-page);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 24px;
+      border: 1px solid rgba(0,0,0,0.04);
+      position: relative;
+    }
+
+    .video-card::before {
+      content: "VIDEO";
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      color: var(--accent-2);
+      opacity: 0.8;
+    }
+
+    .video-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .video-header h3 {
+      font-size: 1.05rem;
+    }
+
+    .video-link {
+      font-size: 0.9rem;
+    }
+
+    .video-link a {
+      color: var(--accent-2);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .video-link a:hover {
+      text-decoration: underline;
+    }
+
+    .video-embed {
+      margin-top: 10px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .video-embed iframe {
+      width: 100%;
+      height: 260px;
+      border: none;
+      display: block;
+    }
+
+    /* SECCION DIARIO */
+    .diary-section-title {
+      margin: 10px 2px 14px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #444;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .diary-section-title::before {
+      content: "";
+      width: 32px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      display: inline-block;
+    }
+
+    .entries-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .entry-card {
+      background: var(--bg-page);
+      border-radius: var(--border-radius-page);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(0,0,0,0.05);
+      padding: 18px 20px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .entry-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 10px;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 111, 97, 0.9),
+        rgba(255, 111, 97, 0.9) 16px,
+        rgba(255, 111, 97, 0.4) 16px,
+        rgba(255, 111, 97, 0.4) 32px
+      );
+      opacity: 0.7;
+    }
+
+    .entry-header {
+      margin-left: 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    .entry-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--accent-2);
+    }
+
+    .entry-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .entry-content {
+      margin-top: 6px;
+      margin-left: 14px;
+      font-size: 0.97rem;
+      color: #444;
+    }
+
+    .entry-content p {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    .entry-content b {
+      color: #222;
+    }
+
+    /* PIE / NOTA FINAL */
+    .footer-note {
+      background: rgba(255,255,255,0.9);
+      border-radius: 18px;
+      padding: 12px 16px;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px dashed rgba(0,0,0,0.12);
+    }
+
+    .footer-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      body {
+        padding: 14px;
+      }
+
+      .header-card {
+        padding: 20px 18px;
+      }
+
+      .header-text h1 {
+        font-size: 1.5rem;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .video-embed iframe {
+        height: 210px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.3rem;
+      }
+
+      .entry-card {
+        padding: 16px 14px 16px;
+      }
+
+      .entry-content {
+        margin-left: 10px;
+      }
+
+      .entry-card::before {
+        width: 7px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="diary-wrapper">
+
+    <!-- ENCABEZADO -->
+    <section class="header-card">
+      <div class="header-main">
+        <div class="header-text">
+          <span class="badge-tag">Escenario 2 · Caracterización de Problemáticas Latinoamericanas</span>
+          <h1>Diario Reflexivo sobre “Hija de la Laguna”</h1>
+          <h2>Pensamiento Latinoamericano y Modelos Alternativos de Desarrollo</h2>
+          <p>
+            Reflexiones personales a partir del documental peruano
+            <i>Hija de la Laguna</i>, sobre las problemáticas socioambientales en América Latina,
+            la defensa del agua y la vida comunitaria.
+          </p>
+        </div>
+        <div class="header-stamp">
+          <div class="stamp">
+            <div class="stamp-inner">
+              <span>UNAD · ECJP</span>
+              <span class="big">Ciencias Políticas</span>
+              <span>Noviembre 2025</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO ESTUDIANTE / CURSO -->
+    <section class="info-grid">
+      <div class="info-card">
+        <div class="info-title">Datos del estudiante</div>
+        <div class="info-list">
+          <p><span>Estudiante:</span> Jorge Humberto Alonso Rodríguez.</p>
+          <p><span>Grupo:</span> 252013_5.</p>
+          <p><span>Tutora:</span> María Salome Ramírez Narváez.</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Datos del curso</div>
+        <div class="info-list">
+          <p><span>Programa:</span> Ciencias Políticas.</p>
+          <p><span>Escuela:</span> Escuela de Ciencias Jurídicas y Políticas - ECJP.</p>
+          <p><span>Curso:</span> Pensamiento Latinoamericano y Construcción de Modelos Alternativos de Desarrollo.</p>
+          <p><span>Universidad:</span> Universidad Nacional Abierta y a Distancia (UNAD).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="video-card">
+      <div class="video-header">
+        <h3>Video documental: Hija de la Laguna</h3>
+        <div class="video-link">
+          Ver en YouTube:
+          <a href="https://www.youtube.com/watch?v=-C2_nlhBECE" target="_blank" rel="noopener noreferrer">
+            https://www.youtube.com/watch?v=-C2_nlhBECE
+          </a>
+        </div>
+      </div>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px;">
+        La noche de las letras. (25 de marzo de 2019). <i>Hija de la Laguna - Documental peruano</i> [Archivo de video]. YouTube.
+      </p>
+      <div class="video-embed">
+        <iframe 
+          src="https://www.youtube.com/embed/-C2_nlhBECE"
+          title="Hija de la Laguna - Documental peruano"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <!-- ENTRADAS DEL DIARIO -->
+    <h3 class="diary-section-title">Entradas del diario reflexivo</h3>
+
+    <section class="entries-grid">
+
+      <!-- ENTRADA 1 -->
+      <article class="entry-card">
+        <div class="entry-header">
+          <div class="entry-title">Entrada 1</div>
+          <div class="entry-meta">Problemática e impacto regional</div>
+        </div>
+        <div class="entry-content">
+          <p><b>¿Cuál es la problemática principal abordada en la lectura o video?</b></p>
+          <p>
+            Hoy empecé este diario viendo el documental <i>Hija de la Laguna</i>, y desde el principio sentí que la problemática
+            principal es la lucha por el agua y el territorio frente a las empresas mineras que quieren explotar oro sin importar
+            lo que pase después. Lo muestran a través de la historia de Máxima y de cómo la minera insiste en meterse en su
+            terreno porque dicen que debajo de su casa hay oro. A mí me quedó claro que lo que está en disputa no es solo el oro,
+            sino la vida misma, porque la gente allí dice que “el agua es la sangre de la tierra”, y cuando lo escuché pensé que
+            suena poético, pero también es muy real. Sin agua, nadie puede vivir.
+          </p>
+          <p><b>¿Qué impacto tiene esta problemática en la región y en las comunidades locales?</b></p>
+          <p>
+            El impacto de este problema en la región es durísimo. En el documental se ve cómo las lagunas empiezan a secarse
+            o a ensuciarse, cómo los animales que antes vivían ahí se van buscando agua en otros lados, y cómo las papas que
+            sembraban ya no crecen igual. Eso me impresionó mucho porque muestra que el daño no es solo para el paisaje, sino
+            para la comida, para la salud, y también para la forma de vida de las personas que siempre han vivido de la tierra.
+            Además, se ve que la minería deja restos tóxicos por todos lados y que eso contamina el aire y la tierra.
+          </p>
+          <p>
+            Las comunidades también sufren de otra forma: pierden tranquilidad, pierden seguridad, y hasta pierden sus tradiciones.
+            Máxima no puede vivir en paz, la persiguen, la presionan y la quieren sacar de su propio terreno. Y eso muestra cómo
+            en muchos lugares de Latinoamérica las empresas tienen más poder que las propias personas. Pensando en mi país, creo
+            que esto pasa en un montón de regiones, donde la gente lucha por cuidar lo poco que tiene mientras otros solo ven los
+            recursos como dinero. Lo que pasa en este video es un reflejo de toda la región.
+          </p>
+        </div>
+      </article>
+
+      <!-- ENTRADA 2 -->
+      <article class="entry-card">
+        <div class="entry-header">
+          <div class="entry-title">Entrada 2</div>
+          <div class="entry-meta">Sentimientos y posibles soluciones</div>
+        </div>
+        <div class="entry-content">
+          <p><b>¿Cuáles son tus pensamientos y sentimientos personales sobre esta problemática?</b></p>
+          <p>
+            Hoy seguí reflexionando sobre el documental y todavía tengo esa sensación de impotencia en el pecho. Personalmente,
+            esta problemática me genera tristeza y también mucha rabia. Ver cómo Máxima tiene que enfrentarse casi sola a una
+            minera tan grande me hizo pensar en lo desigual que es todo. Ella solo quiere vivir tranquila en su casa y cuidar el
+            agua que siempre ha sido de su comunidad, pero le toca estudiar derecho, ir a audiencias y soportar amenazas. La verdad,
+            yo admiro mucho su valentía, pero también creo que nadie debería vivir así para defender algo que ya les pertenece.
+          </p>
+          <p>
+            También me dejó pensando lo que dicen las otras personas que trabajan en minería informal. Ellos mismos reconocen
+            que es peligroso y sacrifican su vida, pero lo hacen porque tienen hijos y necesitan comer. Eso me golpeó, porque
+            demuestra que la pobreza en Latinoamérica es tan fuerte que obliga a las personas a tomar decisiones que los ponen
+            en riesgo. Entonces entendí que este conflicto por el agua y el oro no solo es ambiental, sino también social y económico.
+          </p>
+          <p><b>¿Qué soluciones crees que podrían ser efectivas para abordar esta problemática?</b></p>
+          <p>
+            Sobre las soluciones, pensé en varias cosas. Primero, los gobiernos deberían proteger el agua de verdad, no solo en
+            papeles. Que una laguna no pueda ser destruida porque sí. También creo que es necesario crear alternativas económicas
+            para las comunidades, para que no dependan de trabajos peligrosos. Otra solución sería que las empresas cumplan normas
+            estrictas y que si contaminan, tengan que responder con sanciones reales.
+          </p>
+          <p>
+            Y algo más importante todavía: escuchar a las comunidades. Su forma de entender la naturaleza es distinta, pero eso no
+            quiere decir que esté mal. Ellos llevan generaciones viviendo ahí y saben cómo cuidar el territorio. Me parece que si se
+            tomara su voz en serio, muchas cosas se harían de otra manera. Sigo pensando que es injusto que la gente tenga que elegir
+            entre cuidar el agua y poder sobrevivir. Eso debería cambiar.
+          </p>
+        </div>
+      </article>
+
+      <!-- ENTRADA 3 -->
+      <article class="entry-card">
+        <div class="entry-header">
+          <div class="entry-title">Entrada 3</div>
+          <div class="entry-meta">Comprensiones nuevas y acciones urgentes</div>
+        </div>
+        <div class="entry-content">
+          <p><b>¿Qué nuevas comprensiones has desarrollado sobre las problemáticas en Latinoamérica?</b></p>
+          <p>
+            Para cerrar este diario, estuve pensando en todo lo que aprendí mientras veía el documental y escribía estas reflexiones.
+            Una nueva comprensión que me quedó muy marcada es que las problemáticas en Latinoamérica siempre están conectadas:
+            el ambiente, la pobreza, la injusticia, el abandono estatal y las creencias culturales forman un solo sistema. Yo antes
+            veía los conflictos ambientales como algo más simple, pero ahora entiendo que detrás hay familias, hay tradiciones,
+            hay pobreza y también hay abuso de poder.
+          </p>
+          <p><b>¿Cómo ha cambiado tu perspectiva sobre estas problemáticas a lo largo del desarrollo del diario?</b></p>
+          <p>
+            Mi perspectiva cambió mucho. Antes yo pensaba que la minería solo causaba contaminación, pero ahora veo que también
+            destruye la vida social y emocional de las comunidades. También entendí mejor que para muchas personas la laguna no
+            es solo agua, sino un ser vivo, una madre, un espíritu que cuida. Puede sonar raro para quienes vivimos en ciudades,
+            pero cuando lo vi en el documental me hizo pensar que tal vez nosotros somos los que hemos perdido esa conexión con
+            la naturaleza.
+          </p>
+          <p><b>¿Qué acciones o soluciones crees que son más urgentes y por qué?</b></p>
+          <p>
+            Sobre las acciones urgentes, creo que lo principal es proteger las fuentes de agua antes de que sea demasiado tarde.
+            Sin agua, ninguna comunidad puede vivir. También es urgente crear oportunidades económicas reales para que la gente
+            no dependa de trabajos peligrosos o ilegales. Y otra acción urgente es que las autoridades escuchen la voz de quienes
+            viven en esos territorios, porque ellos saben lo que está pasando. Si siguen ignorándolos, los conflictos van a empeorar.
+          </p>
+          <p>
+            En general, siento que este diario me hizo abrir los ojos. Entendí que defender la tierra en América Latina no es solo
+            un tema ambiental, sino una lucha por la vida y por la dignidad. Y aunque la situación es complicada, también me dio
+            esperanza ver personas como Máxima que, a pesar de todo, siguen de pie y siguen luchando.
+          </p>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- PIE -->
+    <section class="footer-note">
+      <div class="footer-dot"></div>
+      <div>
+        Este diseño de página tipo diario es una propuesta de presentación visual.
+        El contenido puede exportarse a PDF desde el navegador para entrega en la plataforma de la UNAD.
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
